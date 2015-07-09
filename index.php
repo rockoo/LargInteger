@@ -1,0 +1,10 @@
+<?php require('vendor/autoload.php');
+
+use LargeInteger\LargeInteger;
+
+$obj1 = new LargeInteger("113235435298732149872958714082798523523489723897423897423897429874987239847");
+$obj2 = new LargeInteger("12323543598732149872958714082798523523489723897423897423897429874987239847");
+
+$equals = $obj1->equal_to($obj2);
+
+var_dump($equals);

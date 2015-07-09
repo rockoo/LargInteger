@@ -1,0 +1,20 @@
+{
+    "name": "fantasyrock/largeinteger",
+    "description": "Library to test big int",
+    "authors": [
+        {
+            "name": "Rok Nemet",
+            "email": "rok@fantasyrock.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+      "psr-4": {
+        "LargeInteger\\": "src/"
+      }
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "4.7.*"
+    }
+}
