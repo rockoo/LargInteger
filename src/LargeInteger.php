@@ -21,32 +21,32 @@ class LargeInteger implements LargeIntegerInterface {
 
     public function equal_to(LargeInteger $obj)
     {
-        return $this->_normalize($this->that->get_value()) === $this->_normalize($obj->get_value());
+        return ($this->_compare($obj) === 0) ? true : false;
     }
 
     public function not_equal_to(LargeInteger $obj)
     {
-        return $this->_normalize($this->that->get_value()) <> $this->_normalize($obj->get_value());
+        return ($this->_compare($obj) !== 0) ? true : false;
     }
 
     public function greater_than(LargeInteger $obj)
     {
-        return $this->_normalize($this->that->get_value()) > $this->_normalize($obj->get_value());
+        return ($this->_compare($obj) > 0) ? true : false;
     }
 
     public function less_than(LargeInteger $obj)
     {
-        return $this->_normalize($this->that->get_value()) < $this->_normalize($obj->get_value());
+        return ($this->_compare($obj) < 0) ? true : false;
     }
 
     public function greater_or_equal_than(LargeInteger $obj)
     {
-        return $this->_normalize($this->that->get_value()) >= $this->_normalize($obj->get_value());
+        return ($this->_compare($obj) > 0 || $this->_compare($obj) === 0) ? true : false;
     }
 
     public function less_or_equal_than(LargeInteger $obj)
     {
-        return $this->_normalize($this->that->get_value()) <= $this->_normalize($obj->get_value());
+        return ($this->_compare($obj) < 0 || $this->_compare($obj) === 0) ? true : false;
     }
 
     public function add(LargeInteger $obj)
@@ -72,6 +72,23 @@ class LargeInteger implements LargeIntegerInterface {
         }
 
         return new $this->that(strrev(implode($result)));
+    }
+
+    private function _compare(LargeInteger $obj) {
+        $pattern = '/^\+?(\d+)(\.\d+)?$/';
+        if (!preg_match($pattern, $this->that->get_value(), $matchFirst) || !preg_match($pattern, $obj->get_value(), $matchSecond)) return 0;
+
+        $result    = 0;
+        $intOne    = ltrim($matchFirst[1], '0');
+        $intTwo    = ltrim($matchSecond[1], '0');
+
+        if (strlen($intOne) > strlen($intTwo)) {
+            $result = 1;
+        } else if(strlen($intOne) < strlen($intTwo)) {
+            $result = -1;
+        }
+
+        return $result;
     }
 
     private function _normalize($int) {
