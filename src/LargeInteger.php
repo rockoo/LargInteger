@@ -46,7 +46,7 @@ class LargeInteger implements LargeIntegerInterface {
 
     public function less_or_equal_than(LargeInteger $obj)
     {
-        return ($this->_compare($obj) < 0 || $this->_compare($obj) === 0) ? true : false;
+        return ($this->_compare($obj) < 0 || $this->_compare($obj) == 0) ? true : false;
     }
 
     public function add(LargeInteger $obj)
@@ -74,27 +74,34 @@ class LargeInteger implements LargeIntegerInterface {
         return new $this->that(strrev(implode($result)));
     }
 
-    private function _compare(LargeInteger $obj) {
+    public function _compare(LargeInteger $obj) {
         $pattern = '/^\+?(\d+)(\.\d+)?$/';
         if (!preg_match($pattern, $this->that->get_value(), $matchFirst) || !preg_match($pattern, $obj->get_value(), $matchSecond)) return 0;
 
-        $result    = 0;
         $intOne    = ltrim($matchFirst[1], '0');
         $intTwo    = ltrim($matchSecond[1], '0');
 
         if (strlen($intOne) > strlen($intTwo)) {
-            $result = 1;
+            return 1;
         } else if(strlen($intOne) < strlen($intTwo)) {
-            $result = -1;
+            return -1;
         }
 
-        return $result;
+        for ($i = 0; $i < strlen($intOne); $i++) {
+            if ( (int) $intOne[$i] > (int) $intTwo[$i]) {
+                return 1;
+            } else if ( (int) $intOne[$i] < (int) $intTwo[$i]) {
+                return -1;
+            }
+        }
+
+        return 0;
     }
 
     private function _normalize($int) {
 
         preg_match('#\d+(?:\.\d{1,4)?#', sprintf('%f', $int), $match);
 
-        return (isset($match[0])) ? $match[0] : 0;
+        return (isset($match[0])) ? $match[0] : $int;
     }
 }

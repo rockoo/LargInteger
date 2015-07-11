@@ -2,13 +2,14 @@
 
 use LargeInteger\LargeInteger;
 
-$obj1 = new LargeInteger("212323543598732149872958714082798523523489723897423897423897429874987239847");
-$obj2 = new LargeInteger("12323543598732149872958714082798523523489723897423897423897429874987239847");
+$int1 = "2323543598732149872958714082798523523489723897423897423897429874987239847";
+$int2 = "12323543598732149872958714082798523523489723897423897423897429874987239847";
 
-//$equals = $obj1->equal_to($obj2);
+$uint1 = new LargeInteger($int1);
+$uint2 = new LargeInteger($int2);
 
-//$comp = $obj1->_compare($obj2);
+echo "CUSTOM ".var_dump($uint1->greater_or_equal_than($uint2));
 
-$d = $obj1->greater_or_equal_than($obj2);
+echo '<br />';
 
-var_dump($d);
+echo "BCCOMP ".var_dump(bccomp("$int1", "$int2"));
