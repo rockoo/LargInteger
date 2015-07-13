@@ -79,12 +79,12 @@ class LargeInteger implements LargeIntegerInterface {
     }
 
 
-    public function _compare(LargeInteger $obj) {
+    private function _compare(LargeInteger $obj) {
         $pattern = '/^\+?(\d+)(\.\d+)?$/';
         if (!preg_match($pattern, $this->that->get_value(), $matchFirst) || !preg_match($pattern, $obj->get_value(), $matchSecond)) return 0;
 
-        $intOne    = ltrim($matchFirst[1], '0');
-        $intTwo    = ltrim($matchSecond[1], '0');
+        $intOne    = ltrim($matchFirst[1], '0').str_pad('', 0, '0');
+        $intTwo    = ltrim($matchSecond[1], '0').str_pad('', 0, '0');
 
         if (strlen($intOne) > strlen($intTwo)) {
             return 1;
