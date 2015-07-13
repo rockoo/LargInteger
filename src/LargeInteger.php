@@ -51,12 +51,14 @@ class LargeInteger implements LargeIntegerInterface {
 
     public function add(LargeInteger $obj)
     {
+
         $pattern = '/^\+?(\d+)(\.\d+)?$/';
-        if (!preg_match($pattern, $this->that->get_value(), $matchFirst) || !preg_match($pattern, $obj->get_value(), $matchSecond)) return 0;
+        if (!preg_match($pattern, $this->that->get_value(), $matchFirst) ||
+            !preg_match($pattern, $obj->get_value(), $matchSecond)) throw new Exception(sprintf('%s %d', "Malformed value passed", $this->largeInt));;
 
         $result    = array();
-        $intOne    = strrev(ltrim($matchFirst[1], '0'));
-        $intTwo    = strrev(ltrim($matchSecond[1], '0'));
+        $intOne    = strrev(ltrim($matchFirst[1], '0').str_pad('',0,'0'));
+        $intTwo    = strrev(ltrim($matchSecond[1], '0').str_pad('',0,'0'));
         $scaleInt  = max(strlen($intOne), strlen($intTwo));
         $intOne    = str_pad($intOne, $scaleInt, '0');
         $intTwo    = str_pad($intTwo, $scaleInt, '0');
@@ -71,8 +73,11 @@ class LargeInteger implements LargeIntegerInterface {
             if ($calc > 9) $result[$i + 1] = 1;
         }
 
-        return new $this->that(strrev(implode($result)));
+        $result = strrev(implode($result));
+
+        return new $this->that($result);
     }
+
 
     public function _compare(LargeInteger $obj) {
         $pattern = '/^\+?(\d+)(\.\d+)?$/';
@@ -96,12 +101,5 @@ class LargeInteger implements LargeIntegerInterface {
         }
 
         return 0;
-    }
-
-    private function _normalize($int) {
-
-        preg_match('#\d+(?:\.\d{1,4)?#', sprintf('%f', $int), $match);
-
-        return (isset($match[0])) ? $match[0] : $int;
     }
 }

@@ -36,8 +36,13 @@ class LargeIntTest extends PHPUnit_Framework_TestCase {
         $obj3 = new LargeInteger("12323543598732149872958714082798523523489723897423897423897429874987239847");
         $obj4 = new LargeInteger("12323543598732149872958714082798523523489723897423897423897429874987239847");
 
+        $uint1 = new LargeInteger("123235435987321498729587140827985234");
+        $uint2 = new LargeInteger(3);
+        $uint3 = $uint1->add($uint2);
+
         $this->assertTrue($obj1->not_equal_to($obj2));
         $this->assertFalse($obj3->not_equal_to($obj4));
+        $this->assertNotEquals("123235435987321498729587140827985235", $uint3->get_value());
     }
 
     public function testGreaterThan()
