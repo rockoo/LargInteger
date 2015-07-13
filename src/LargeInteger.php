@@ -53,15 +53,15 @@ class LargeInteger implements LargeIntegerInterface {
     {
 
         $pattern = '/^\+?(\d+)(\.\d+)?$/';
-        if (!preg_match($pattern, $this->that->get_value(), $matchFirst) ||
-            !preg_match($pattern, $obj->get_value(), $matchSecond)) throw new Exception(sprintf('%s %d', "Malformed value passed", $this->largeInt));;
+        if (! preg_match($pattern, $this->that->get_value(), $matchFirst) ||
+            ! preg_match($pattern, $obj->get_value(), $matchSecond)) throw new Exception(sprintf('%s %d', "Malformed value passed", $this->largeInt));;
 
-        $result    = array();
-        $intOne    = strrev(ltrim($matchFirst[1], '0').str_pad('',0,'0'));
-        $intTwo    = strrev(ltrim($matchSecond[1], '0').str_pad('',0,'0'));
-        $scaleInt  = max(strlen($intOne), strlen($intTwo));
-        $intOne    = str_pad($intOne, $scaleInt, '0');
-        $intTwo    = str_pad($intTwo, $scaleInt, '0');
+        $result   = array();
+        $intOne   = strrev(ltrim($matchFirst[1], '0').str_pad('',0,'0'));
+        $intTwo   = strrev(ltrim($matchSecond[1], '0').str_pad('',0,'0'));
+        $scaleInt = max(strlen($intOne), strlen($intTwo));
+        $intOne   = str_pad($intOne, $scaleInt, '0');
+        $intTwo   = str_pad($intTwo, $scaleInt, '0');
 
         for ($i = 0; $i < $scaleInt; $i++) {
             $calc = (int) $intOne[$i] + (int) $intTwo[$i];
@@ -81,10 +81,11 @@ class LargeInteger implements LargeIntegerInterface {
 
     private function _compare(LargeInteger $obj) {
         $pattern = '/^\+?(\d+)(\.\d+)?$/';
-        if (!preg_match($pattern, $this->that->get_value(), $matchFirst) || !preg_match($pattern, $obj->get_value(), $matchSecond)) return 0;
+        if (! preg_match($pattern, $this->that->get_value(), $matchFirst) ||
+            ! preg_match($pattern, $obj->get_value(), $matchSecond)) return 0;
 
-        $intOne    = ltrim($matchFirst[1], '0').str_pad('', 0, '0');
-        $intTwo    = ltrim($matchSecond[1], '0').str_pad('', 0, '0');
+        $intOne  = ltrim($matchFirst[1], '0').str_pad('', 0, '0');
+        $intTwo  = ltrim($matchSecond[1], '0').str_pad('', 0, '0');
 
         if (strlen($intOne) > strlen($intTwo)) {
             return 1;
